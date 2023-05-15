@@ -1,0 +1,160 @@
+@import "./config.css";
+
+.login{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.login > div{
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+}
+
+.login_images{
+    display: flex;
+    background: rgb(107, 54, 98);
+    padding: 50px;
+    width: 100%;
+}
+
+.login_form{
+    display: flex;
+    width: 45%;
+
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+/* formulario */
+
+.login_form--container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login_form--form,
+.login_form--cad{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid black;
+    width: 100%;
+    margin: 20px;
+}
+
+.login_form--form_logo{
+    width: 100%;
+    max-width: 200px;
+}
+
+
+.login_form--form input,
+.login_form--cad input{
+    border: 1px solid var(--azul1);
+}
+
+.login_form--form--user,
+.login_form--form--password,
+.login_form--cad input{
+    padding: 10px;
+    font-size: 17px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.login_form--form--user:focus,
+.login_form--form--password:focus,
+.login_form--cad input:focus{
+    outline: none;
+}
+
+.login_form--form input[type="submit"],
+.login_form--cad input[type="submit"]{
+    background: var(--azul1);
+    color: white;
+    width: 100%;
+    cursor: pointer;
+}
+
+.login_form--form--ou{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin:  20px 0;
+}
+
+.login_form--form--ou::before{
+    content: "";
+    position: absolute;
+    width: 35%;
+    background: var(--azul1) ;
+    padding: 1px;
+    left: 0;
+}
+
+.login_form--form--ou::after{
+    content: "";
+    position: absolute;
+    width: 35%;
+    background: var(--azul1) ;
+    padding: 1px;
+    right: 0;
+}
+
+.login_form--form .login_form--form--esqueceu{
+    color: var(--azul1);
+    text-decoration: none ;
+    font-weight: 600;
+}
+
+.login_form--cad{
+    display: none;/***ssss****/
+}
+
+.login_form--cad_wp{
+    display: grid;
+    justify-items: center;
+    align-items: stretch;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+
+}
+
+.login_form--cad p{
+    margin: 10px 0;
+}
+
+
+/* não tem cadastro */
+.login_form_semconta,
+.login_form_temconta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    width: 100%;
+    padding: 20px;
+    margin: 20px;
+}
+
+.login_form_semconta--link,
+.login_form_temconta--link{
+    color: var(--azul1);
+    text-decoration: none ;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+/* tem cadastro?*/
+
