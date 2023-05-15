@@ -39,6 +39,22 @@
         });
       }
 
+      function excluirVeiculo(id){
+        var json  = {};
+        json.id   = id;
+        json.acao = "deleteVeiculo";
+
+        $.ajax({
+          url : "usuarioDAO.php",
+          data: json,
+          type: "post",
+          success: function (resp){
+              exibir_mensagem("Resultado da solicitação", resp);
+              consultar();
+          }
+        });
+      }
+
       
 
 
@@ -110,18 +126,17 @@
           data: json,
           type: "post",
           success: function (resp){
-            
+            console.log(resp)
             var linhas = JSON.parse(resp);
 
             document.querySelector("#corpoTabelaHistorico").innerHTML = "";
 
-            console.log('entrou' , linhas)
+            
             for (i=0;i<linhas.length;i++){
 
-              console.log('linhas',linhas)
 
               var id    = linhas[i].id;
-              var id_veiculo  = linhas[i].id_veiculo;
+              var id_carro_placa  = linhas[i].id_carro_placa;
               var data_servico = linhas[i].data_servico;
               var valor_cobrado = linhas[i].valor_cobrado;
               var validade_garantia = linhas[i].validade_garantia;
@@ -131,7 +146,7 @@
 
               var linha = `<tr>
                   <td>${id}</td>
-                  <td>${id_veiculo}</td>
+                  <td>${id_carro_placa}</td>
                   <td>${mecanico_responsavel}</td>
                   <td>${pecas_compradas}</td>
                   <td>${validade_garantia}</td>
@@ -162,7 +177,6 @@
             document.querySelector("#corpoTabelaVeiculo").innerHTML = "";
             for (i=0;i<linhas.length;i++){
 
-              // console.log('linhas',linhas)
               var placa    = linhas[i].placa;
               var id_proprietario  = linhas[i].id_proprietario;
               var fabricante = linhas[i].fabricante;
@@ -172,6 +186,8 @@
 
               var linha = `<tr>
                   <td><button type="button" class="btn btn-outline-primary" onclick="historico(${placa})">Histórico</button></td>
+                  <td><button type="button" class="btn btn-outline-secondary" onclick="historico(${placa})">Editar</button></td>
+                  <td><button type="button" class="btn btn-outline-danger" onclick="excluirVeiculo(${placa})">Excluir</button></td>
                   <td>${placa}</td>
                   <td>${id_proprietario}</td>
                   <td>${fabricante}</td>
@@ -266,7 +282,7 @@
 
     <div class="container text-left mt-5">
       <div class="row">
-        <div class="col-6 offset-3">
+        <div class="col-12 offset-12">
           <div class="mb-3">
             <h2 id="titulo">Cadastrar usuário</h2>
           </div>
@@ -322,9 +338,11 @@
             <table class="table caption-top">
               <thead>
                 <tr>
-                  <th scope="col">Histórico</th>
-                  <th scope="col">id</th>
-                  <th scope="col">Dono do Carro id</th>
+                  <th scope="col">Histórico Veículo</th>
+                  <th scope="col">Editar Veiculo</th>
+                  <th scope="col">Excluir Veículo</th>
+                  <th scope="col">placa veiculo</th>
+                  <th scope="col">Dono do veiculo id</th>
                   <th scope="col">Marca</th>
                   <th scope="col">Modelo</th>
                   <th scope="col">Ano</th>
@@ -343,7 +361,7 @@
 
 
       <div class="row">
-        <div class="col-6 offset-3">
+        <div class="col-12 offset-12">
           <div class="mb-3">
             <h2 id="titulo">Cadastrar carro para usuário</h2>
           </div>
@@ -413,7 +431,7 @@
               <thead>
                 <tr>
                   <th scope="col">id</th>
-                  <th scope="col">id_veiculo</th>
+                  <th scope="col">id_veiculo placa</th>
                   <th scope="col">mecanico responsavel</th>
                   <th scope="col">peças compradas</th>
                   <th scope="col">validade_garantia</th>

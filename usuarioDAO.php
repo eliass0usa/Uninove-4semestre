@@ -67,7 +67,7 @@ if ($acao == "insert"){
 
 	$id  = $_POST["id"];
 
-	$sql = "select * from historico where id_veiculo='$id'";
+	$sql = "select * from historico where id_carro_placa='$id'";
 	$resultado = mysqli_query($con,$sql);
 
 	$linhas = [];
@@ -82,6 +82,19 @@ if ($acao == "insert"){
 	$id  = $_POST["id"];
 
 	$sql = "delete from usuario where id='$id'";
+	mysqli_query($con,$sql);
+
+	if (mysqli_affected_rows($con)>0){
+		echo "Deletado com sucesso!";
+	}else{
+		echo "Não foi possível deletar os dados!";
+	}
+
+}else if ($acao == "deleteVeiculo"){
+	
+	$id  = $_POST["id"];
+
+	$sql = "delete from veiculos where placa='$id'";
 	mysqli_query($con,$sql);
 
 	if (mysqli_affected_rows($con)>0){
