@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/05/2023 às 02:25
+-- Tempo de geração: 22/05/2023 às 05:17
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -37,6 +37,16 @@ CREATE TABLE `historico` (
   `pecas_compradas` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Despejando dados para a tabela `historico`
+--
+
+INSERT INTO `historico` (`id`, `id_carro_placa`, `data_servico`, `valor_cobrado`, `validade_garantia`, `mecanico_responsavel`, `pecas_compradas`) VALUES
+(6, '9876222', 'asd', 'asd', 'asd', '123', 'asd'),
+(15, '92234', 'ontem', '2000', 'amanhã', 'jailton', 'cambio'),
+(24, '123', 'ontem', '200', 'asd', 'asda', 'asd'),
+(27, '9876222', 'teste', 'asd', 'asd', 'asd', 'tesst');
+
 -- --------------------------------------------------------
 
 --
@@ -55,9 +65,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`) VALUES
-(7, 'Joao', 'maria@uni9.pro.br', 'da39a3ee5e6b4b0d3255bfef95601890afd80709'),
 (9, 'Roni', 'pontes014@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef'),
-(12, 'lucas', 'pontes014@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef');
+(14, 'novo', 'example@example.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef'),
+(16, 'tatiane', 'tatiolive2002@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef');
 
 -- --------------------------------------------------------
 
@@ -78,16 +88,10 @@ CREATE TABLE `veiculos` (
 --
 
 INSERT INTO `veiculos` (`placa`, `id_proprietario`, `fabricante`, `modelo`, `tipo`) VALUES
-('0933', 12, 'marca', 'modelo', 'carro'),
-('1234', 9, 'volkswagen', 'voyage', 'carro'),
-('43675', 7, 'lknlkn', 'modelo', 'caarr'),
-('436758767', 12, 'lknlkn', 'modelo', 'caarr'),
-('436911', 7, 'marca', 'modelo', 'caarr'),
-('436922', 7, 'marca2', 'modelo', 'caarr'),
-('5678', 9, 'volkswagen', 'jetta', 'carro'),
-('78922', 7, 'audi', 'tt', 'carro'),
-('933', 12, 'marca', 'modelo', 'carro'),
-('9876', 7, 'bmw', 'x6', 'carro');
+('123', 9, '123', '123', '123'),
+('92234', 9, 'volks', 'voyage', 'carro'),
+('9471', 16, 'bmw', 'x1', 'carro'),
+('9876222', 14, 'teste', 'modelo teste', 'carro');
 
 --
 -- Índices para tabelas despejadas
@@ -121,13 +125,13 @@ ALTER TABLE `veiculos`
 -- AUTO_INCREMENT de tabela `historico`
 --
 ALTER TABLE `historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restrições para tabelas despejadas

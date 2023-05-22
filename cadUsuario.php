@@ -23,6 +23,13 @@
         document.querySelector("#titulo").innerHTML = "Cadastrar usuário";
       }
 
+      function limparCarro(){
+        document.getElementById('placaCarro').value  = "";
+        document.getElementById('marcaCarro').value  = "";
+        document.getElementById('modeloCarro').value  = "";
+        document.getElementById('tipoCarro').value  = "";
+      }
+
       function excluir(id){
         var json  = {};
         json.id   = id;
@@ -53,6 +60,58 @@
               consultar();
           }
         });
+      }
+
+      function excluirHistorico ( id , placa) {
+        var json  = {};
+        json.id   = id;
+        json.acao = "deleteHistorico";
+
+        $.ajax({
+          url : "usuarioDAO.php",
+          data: json,
+          type: "post",
+          success: function (resp){
+              exibir_mensagem("Resultado da solicitação", resp);
+
+              historico(placa)
+          }
+        });
+
+        
+      }
+
+      function editarVeiculo(id){
+        const placaInput = document.getElementById('placaCarro')
+        const marcaInput = document.getElementById('marcaCarro')
+        const modeloInput = document.getElementById('modeloCarro')
+        const tipoInput = document.getElementById('tipoCarro')
+
+        var json = {};
+        json.id  = id;
+        json.acao  = "selectCar";
+
+        $.ajax({
+          url : "usuarioDAO.php",
+          data: json,
+          type: "post",
+          success: function (resp){
+            var linhas = JSON.parse(resp);
+
+            for (i=0;i<linhas.length;i++){
+              var placa = linhas[i].placa;
+              var fabricante = linhas[i].fabricante;
+              var modelo = linhas[i].modelo;
+              var tipo = linhas[i].tipo;
+
+            }
+            placaInput.value = placa
+            marcaInput.value = fabricante
+            modeloInput.value = modelo
+            tipoInput.value = tipo
+          }
+        });
+
       }
 
       
@@ -116,6 +175,44 @@
 
       }
 
+
+
+      function editarHistorico ( id,id_veiculo_placa, usuario_id, nomeProprietario , mecanico_responsavel,pecas_compradas,validade_garantia, valor_cobrado,data_servico) {
+ 
+
+        document.getElementById('idHistorico').value = id
+
+        
+        let veiculoSelecionado = document.getElementById('veiculosUsuarioSelecionado')
+        
+        
+        Array.from(idUsuario2.options).forEach( (el, index) => {
+          let value = el.value
+          
+          if ( value == usuario_id ) {
+            idUsuario2.options[idUsuario2.selectedIndex].click()
+            idUsuario2.selectedIndex = index
+
+          }
+        })
+
+        Array.from(veiculoSelecionado.options).forEach( (el, index) => {
+          let value = el.value
+          
+          if ( value == id_veiculo_placa ) {
+            veiculoSelecionado.options[veiculoSelecionado.selectedIndex].click()
+            veiculoSelecionado.selectedIndex = index
+          }
+        })
+
+        document.getElementById('mecanicoResponsavel').value = mecanico_responsavel
+        document.getElementById('pecasCompradas').value = pecas_compradas
+        document.getElementById('validade-garantia').value = validade_garantia
+        document.getElementById('valor-cobrado').value = valor_cobrado
+        document.getElementById('data-servico').value = data_servico
+
+      }
+
       function historico(id){
         var json  = {};
         json.id   = id;
@@ -126,7 +223,7 @@
           data: json,
           type: "post",
           success: function (resp){
-            console.log(resp)
+            
             var linhas = JSON.parse(resp);
 
             document.querySelector("#corpoTabelaHistorico").innerHTML = "";
@@ -135,18 +232,24 @@
             for (i=0;i<linhas.length;i++){
 
 
-              var id    = linhas[i].id;
-              var id_carro_placa  = linhas[i].id_carro_placa;
+              var historico_id    = linhas[i].historico_id;
+              var usuario_id    = linhas[i].usuario_id;
+              var id_veiculo_placa  = linhas[i].id_carro_placa;
               var data_servico = linhas[i].data_servico;
               var valor_cobrado = linhas[i].valor_cobrado;
               var validade_garantia = linhas[i].validade_garantia;
               var mecanico_responsavel = linhas[i].mecanico_responsavel;
+              var nomeProprietario = linhas[i].nome;
               var pecas_compradas = linhas[i].pecas_compradas;
 
 
               var linha = `<tr>
-                  <td>${id}</td>
-                  <td>${id_carro_placa}</td>
+                  <td><button type="button" class="btn btn-outline-secondary" onclick="editarHistorico(${historico_id},${id_veiculo_placa}, ${usuario_id},'${nomeProprietario}','${mecanico_responsavel}','${pecas_compradas}','${validade_garantia}','${valor_cobrado}','${data_servico}')">Editar</button></td>
+                  <td><button type="button" class="btn btn-outline-danger" onclick="excluirHistorico(${historico_id}, ${id_veiculo_placa})">Excluir</button></td>
+
+                  <td>${historico_id}</td>
+                  <td>${id_veiculo_placa}</td>
+                  <td>${nomeProprietario}</td>
                   <td>${mecanico_responsavel}</td>
                   <td>${pecas_compradas}</td>
                   <td>${validade_garantia}</td>
@@ -186,7 +289,7 @@
 
               var linha = `<tr>
                   <td><button type="button" class="btn btn-outline-primary" onclick="historico(${placa})">Histórico</button></td>
-                  <td><button type="button" class="btn btn-outline-secondary" onclick="historico(${placa})">Editar</button></td>
+                  <td><button type="button" class="btn btn-outline-secondary" onclick="editarVeiculo(${placa})">Editar</button></td>
                   <td><button type="button" class="btn btn-outline-danger" onclick="excluirVeiculo(${placa})">Excluir</button></td>
                   <td>${placa}</td>
                   <td>${id_proprietario}</td>
@@ -202,12 +305,110 @@
           }
         });
       }
+      
+      function inserirHistorico() {
+        const selectUsuario = document.getElementById('idUsuario2');
+        const selectVeiculo = document.getElementById('veiculosUsuarioSelecionado');
+
+        const idUsuario = selectUsuario.options[selectUsuario.selectedIndex].value;
+        const placa = selectVeiculo.options[selectVeiculo.selectedIndex].value;
+
+        console.log('placa', placa)
+
+        
+        const idHistorico = document.getElementById('idHistorico').value
+
+
+        
+        const mecanico = document.getElementById('mecanicoResponsavel')
+        const pecas = document.getElementById('pecasCompradas')
+        const validade = document.getElementById('validade-garantia')
+        const valor = document.getElementById('valor-cobrado')
+        const data = document.getElementById('data-servico')
+
+        var json = {};
+
+        
+        json.id    = idHistorico;
+
+        if (json.id==""){
+          console.log('jsonid',json.id)
+          console.log('insert')
+          json.acao  = "insertHistorico";
+        }else{
+          console.log('jsonid',json.id)
+          console.log('update')
+          json.acao  = "updateHistorico";
+        }
+
+
+        json.placa  = placa
+        json.mecanico = mecanico.value
+        json.validade = validade.value
+        json.valor = valor.value
+        json.data = data.value
+        json.pecas = pecas.value
+
+
+        $.ajax({
+          url : "usuarioDAO.php",
+          data: json,
+          type: "post",
+          success: function (resp){
+              exibir_mensagem("Resultado da solicitação", resp);
+              consultar();
+          }
+        });
+
+
+      }
+
+      function historicoOptions(){
+
+        var select = document.getElementById('idUsuario2');
+        var id = select.options[select.selectedIndex].value;
+        var option = select.options[select.selectedIndex].textContent;
+        console.log(option)
+
+        var json  = {};
+        json.id   = id;
+        json.acao = "veiculo";
+
+
+        $.ajax({
+          url : "usuarioDAO.php",
+          data: json,
+          type: "post",
+          success: function (resp){
+            var linhas = JSON.parse(resp);
+            document.querySelector("#veiculosUsuarioSelecionado").innerHTML = `<option value="">Selecione</option>`;
+
+            for (i=0;i<linhas.length;i++){
+
+
+              var placa    = linhas[i].placa;
+              var id_proprietario  = linhas[i].id_proprietario;
+              var fabricante = linhas[i].fabricante;
+              var modelo = linhas[i].modelo;
+              var tipo = linhas[i].tipo;
+
+              var options = `
+                <option value="${placa}">placa: ${placa} modelo: ${modelo}</option>
+              `
+              document.querySelector("#veiculosUsuarioSelecionado").innerHTML += options;
+            }
+
+          }
+        });
+      }
 
       function consultar(){
         var json = {};
         json.acao  = "select";
 
-        document.querySelector("#idUsuario").innerHTML = '';
+        document.querySelector("#idUsuario").innerHTML = '<option value="">Selecione</option>';
+        document.querySelector("#idUsuario2").innerHTML = ' <option value="">Selecione</option>';
+
 
         $.ajax({
           url : "usuarioDAO.php",
@@ -237,11 +438,16 @@
                 <option value="${id}">${nome}</option>
               `
               document.querySelector("#idUsuario").innerHTML += options;
+              document.querySelector("#idUsuario2").innerHTML += options;
+
+              
 
             }
           }
         });
       }
+
+
 
       function exibir_mensagem(titulo, conteudo){
         document.querySelector("#modalTitulo").innerHTML   = titulo;
@@ -253,6 +459,10 @@
 
       window.onload = () => {
         consultar()
+
+        historicoOptions()
+        document.getElementById('idUsuario2').addEventListener('change', historicoOptions)
+        
       }
     </script>
 
@@ -342,6 +552,7 @@
                   <th scope="col">Editar Veiculo</th>
                   <th scope="col">Excluir Veículo</th>
                   <th scope="col">placa veiculo</th>
+                  <th scope="col">dono veiculo</th>
                   <th scope="col">Dono do veiculo id</th>
                   <th scope="col">Marca</th>
                   <th scope="col">Modelo</th>
@@ -400,29 +611,12 @@
             <button type="button" class="btn btn-primary" onclick="window.location.href='principal.php'">Voltar</button>
             <button type="button" class="btn btn-primary" onClick="consultar()">Consultar</button>
             <button type="button" class="btn btn-primary" onClick="inserirCarro()">Salvar</button>
-            <button type="button" class="btn btn-primary" onClick="limpar()">Limpar</button>
+            <button type="button" class="btn btn-primary" onClick="limparCarro()">Limpar</button>
 
             
           </div>
 
-          <!-- TABELA DOS USUÁRIOS -->
-          <div class="mb-3">
-            <table class="table caption-top">
-              <thead>
-                <tr>
-                  <th scope="col">Veiculos</th>
-                  <th scope="col">editar</th>
-                  <th scope="col">excluir</th>
-                  <th scope="col">ID</th>
-                  <th scope="col">Nome</th>
-                  <th scope="col">Email</th>
-                </tr>
-              </thead>
-              <tbody id="corpoTabela">
-                <!--Linha da tabela aqui-->
-              </tbody>
-            </table>
-          </div>
+         
 
 
           <!-- TABELA DO HISTÓRICO DOS VEICULOS -->
@@ -430,8 +624,11 @@
             <table class="table caption-top">
               <thead>
                 <tr>
+                  <th scope="col">Editar</th>
+                  <th scope="col">Excluir</th>
                   <th scope="col">id</th>
                   <th scope="col">id_veiculo placa</th>
+                  <th scope="col">proprietario</th>
                   <th scope="col">mecanico responsavel</th>
                   <th scope="col">peças compradas</th>
                   <th scope="col">validade_garantia</th>
@@ -445,6 +642,65 @@
             </table>
           </div>
 
+          <div class="row">
+        <div class="col-12 offset-12">
+          <div class="mb-3">
+            <h2 id="titulo">Cadastrar histórico para um carro</h2>
+          </div>
+
+
+
+          <div class="mb-3 lh-1">
+            <label for="idHistorico" class="form-label">id</label>
+            <input type="text" class="form-control" id="idHistorico" placeholder="" disabled>
+          </div>
+
+                 
+          <div class="mb-3 mt-5 lh-1">
+            <p><label for="idUsuario2" class="form-label">id Veiculo placa</label></p>
+            <select name="" id="idUsuario2">
+                <option value="">Selecione</option>               
+            </select>
+            <select name="" id="veiculosUsuarioSelecionado">
+                <option value="">Selecione</option>               
+            </select>
+           
+          </div>
+          
+          <div class="mb-3 lh-1">
+            <label for="mecanicoResponsavel" class="form-label">mecanico responsavel</label>
+            <input type="text" class="form-control" id="mecanicoResponsavel" placeholder="">
+          </div>
+
+          <div class="mb-3 lh-1">
+            <label for="pecasCompradas" class="form-label">peças compradas</label>
+            <input type="text" class="form-control" id="pecasCompradas" placeholder="">
+          </div>
+
+          <div class="mb-3 lh-1">
+            <label for="validade-garantia" class="form-label">validade garantia</label>
+            <input type="text" class="form-control" id="validade-garantia" placeholder="">
+          </div>
+
+          <div class="mb-3 lh-1">
+            <label for="valor-cobrado" class="form-label">valor cobrado</label>
+            <input type="text" class="form-control" id="valor-cobrado" placeholder="">
+          </div>
+
+          <div class="mb-3 lh-1">
+            <label for="data-servico" class="form-label">data servico</label>
+            <input type="text" class="form-control" id="data-servico" placeholder="">
+          </div>
+
+          <div class="mb-3 lh-1">
+
+            <button type="button" class="btn btn-primary" onclick="window.location.href='principal.php'">Voltar</button>
+            <button type="button" class="btn btn-primary" onClick="consultar()">Consultar</button>
+            <button type="button" class="btn btn-primary" onClick="inserirHistorico()">Salvar</button>
+            <button type="button" class="btn btn-primary" onClick="limparHistorico()">Limpar</button>
+
+            
+          </div>
 
         </div>
       </div>

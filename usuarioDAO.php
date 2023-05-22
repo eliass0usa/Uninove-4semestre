@@ -23,14 +23,17 @@ if ($acao == "insert"){
 		echo "Não foi possível inserir os dados!";
 	}
 
-}else if ($acao == "insertCarro"){
+}else if ($acao == "insertHistorico"){
+
 	$placa  = $_POST["placa"];
-	$id_proprietario = $_POST["id"];
-	$marca = $_POST["marca"];
-	$modelo = $_POST["modelo"];
-	$tipo = $_POST["tipo"];
-	
-	$sql = "insert into veiculos(placa,id_proprietario,fabricante,modelo,tipo) values('$placa','$id_proprietario','$marca', '$modelo', '$tipo')";
+	$data = $_POST["data"];
+	$valor = $_POST["valor"];
+	$validade = $_POST["validade"];
+	$mecanico = $_POST["mecanico"];
+	$pecas = $_POST["pecas"];
+
+
+	$sql = "insert into historico(id_carro_placa,data_servico,valor_cobrado,validade_garantia,mecanico_responsavel,pecas_compradas) values('$placa','$data','$valor','$validade','$mecanico','$pecas')";
 	mysqli_query($con,$sql);
 
 	if (mysqli_affected_rows($con)>0){
@@ -39,8 +42,63 @@ if ($acao == "insert"){
 		echo "Não foi possível inserir os dados!";
 	}
 
+
+	
+
+}else if ($acao == "insertCarro"){
+	$placa  = $_POST["placa"];
+	$id_proprietario = $_POST["id"];
+	$marca = $_POST["marca"];
+	$modelo = $_POST["modelo"];
+	$tipo = $_POST["tipo"];
+
+
+	$sql = "select * from veiculos where placa=$placa";
+	$resultado = mysqli_query($con,$sql);
+
+	$linhas = [];
+	while($row = mysqli_fetch_assoc($resultado)){
+		$linhas[] = $row;
+	}
+
+	if ( sizeof($linhas) > 0 ) {
+
+		$sql = "update veiculos set placa='$placa', fabricante='$marca', modelo='$modelo', tipo='$tipo' where placa=$placa";
+		mysqli_query($con,$sql);
+
+		if (mysqli_affected_rows($con)>0){
+			echo "Dados atualizados com sucesso!";
+			
+		}else{
+			echo "Não foi possível atualizar os dados!";
+		}
+
+	} else {
+
+		$sql = "insert into veiculos(placa,id_proprietario,fabricante,modelo,tipo) values('$placa','$id_proprietario','$marca', '$modelo', '$tipo')";
+		mysqli_query($con,$sql);
+	
+		if (mysqli_affected_rows($con)>0){
+			echo "Inserido com sucesso!";
+		}else{
+			echo "Não foi possível inserir os dados!";
+		}
+	}
+
 }else if ($acao == "select"){
+	
 	$sql = "select * from usuario";
+	$resultado = mysqli_query($con,$sql);
+
+	$linhas = [];
+	while($row = mysqli_fetch_assoc($resultado)){
+		$linhas[] = $row;
+	}
+	echo json_encode($linhas);
+
+}else if ($acao == "selectCar"){
+	$id = $_POST["id"];
+	$sql = "select * from veiculos where placa=$id";
 	$resultado = mysqli_query($con,$sql);
 
 	$linhas = [];
@@ -54,6 +112,7 @@ if ($acao == "insert"){
 	$id  = $_POST["id"];
 
 	$sql = "select * from veiculos where id_proprietario='$id'";
+
 	$resultado = mysqli_query($con,$sql);
 
 	$linhas = [];
@@ -67,7 +126,13 @@ if ($acao == "insert"){
 
 	$id  = $_POST["id"];
 
-	$sql = "select * from historico where id_carro_placa='$id'";
+	// $sql = "select * from historico where id_carro_placa='$id'";
+	$sql = "SELECT h.id AS historico_id, h.id_carro_placa, h.data_servico, h.valor_cobrado, h.validade_garantia, h.mecanico_responsavel, h.pecas_compradas, u.id AS usuario_id, u.nome
+	FROM historico h
+	JOIN veiculos v ON h.id_carro_placa = v.placa
+	JOIN usuario u ON v.id_proprietario = u.id
+	WHERE h.id_carro_placa = '$id'";
+
 	$resultado = mysqli_query($con,$sql);
 
 	$linhas = [];
@@ -103,6 +168,19 @@ if ($acao == "insert"){
 		echo "Não foi possível deletar os dados!";
 	}
 
+}else if ($acao == "deleteHistorico"){
+	
+	$id  = $_POST["id"];
+
+	$sql = "delete from historico where id='$id'";
+	mysqli_query($con,$sql);
+
+	if (mysqli_affected_rows($con)>0){
+		echo "Deletado com sucesso!";
+	}else{
+		echo "Não foi possível deletar os dados!";
+	}
+
 }else if ($acao == "update"){
 	$id    = $_POST["id"];
 	$nome  = $_POST["nome"];
@@ -110,6 +188,25 @@ if ($acao == "insert"){
 	$senha = sha1($_POST["senha"]);
 
 	$sql = "update usuario set nome='$nome', email='$email', senha='$senha' where id=$id";
+	mysqli_query($con,$sql);
+
+	if (mysqli_affected_rows($con)>0){
+		echo "Dados atualizados com sucesso!";
+	}else{
+		echo "Não foi possível atualizar os dados!";
+	}
+}else if ($acao == "updateHistorico"){
+
+	$id    = $_POST["id"];
+	$placa    = $_POST["placa"];
+	$mecanico  = $_POST["mecanico"];
+	$validade = $_POST["validade"];
+	$valor = $_POST["valor"];
+	$data = $_POST["data"];
+	$pecas = $_POST["pecas"];
+
+	$sql = "update historico set id_carro_placa='$placa', data_servico='$data', valor_cobrado='$valor', validade_garantia='$validade', mecanico_responsavel='$mecanico', pecas_compradas='$pecas' where id=$id";
+	// "update veiculos set placa='$placa', fabricante='$marca', modelo='$modelo', tipo='$tipo' where placa=$placa";
 	mysqli_query($con,$sql);
 
 	if (mysqli_affected_rows($con)>0){
