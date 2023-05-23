@@ -39,13 +39,8 @@
           <div class="mb-3 text-center mt-5">
             <button type="button" class="btn btn-primary" onclick="window.location.href='cadUsuario.php'">Usuários</button>
 
-            <button type="button" class="btn btn-primary" onclick="window.location.href='cadUsuario.php'">Carros</button>
-         
-            <button type="button" class="btn btn-primary">Agenda</button>
-         
-            <button type="button" class="btn btn-primary">Clientes</button>
-         
-            <button type="button" class="btn btn-primary">Serviços</button>
+           
+
           </div>
           
         </div>

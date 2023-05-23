@@ -19,25 +19,30 @@
 
     <script>
 
-      function enviar_email(){
+      function enviarEmail(){
         var email    = document.querySelector("#email").value;
         var mensagem = "<a href='#'>Clique aqui</a> para redefinir sua senha.";
 
         $.ajax({
+          var email = document.querySelector("#email").value;
+          var mensagem = "<a href='#'>Clique aqui</a> para redefinir sua senha.";
+
+          $.ajax({
             url: "https://formsubmit.co/ajax/" + email,
             method: "POST",
             data: {
-                name: "FormSubmit",
-                message: mensagem
-            },
-            success: function (resp){
-              if (resp.success == 'true'){                
-                alert("E-mail enviado com sucesso!");
-              }else{
-                alert("Houve um erro ao enviar o e-mail!");
-              }
-            },
-            dataType: "json"
+              name: "ireneu14",
+              message: mensagem
+          },
+          success: function (resp){
+            if (resp.success == 'true'){ 
+            alert("E-mail enviado com sucesso!");
+          }else{
+              alert("Houve um erro ao enviar o e-mail!");
+            }
+          },
+          dataType: "json"
+          });
         });
       }
 
@@ -72,35 +77,42 @@
       </div>
 
 
-    <?php
-      session_start();
+      <?php
+
+      
       if (isset($_SESSION['erro'])){
-        echo "<script>exibir_mensagem('Dados incorretos!', 'Usuário ou senha inválida!');</script>";
+        $error = $_SESSION['erro'];
+        
+        echo "<script>exibir_mensagem('Dados incorretos!', '". $error ."');</script>";
+
         unset($_SESSION['erro']);
       }
+      
     ?>
 
 
     <div class="container text-left mt-5">
       <div class="row">
         
-        <div class="col-4 offset-4">
+        <div class="col-6 offset-6">
           <div class="mb-3 text-center">
-            <h1>Login</h1>
+            <h1>Cadastro</h1>
           </div>
           <div class="mb-3">
             <form action="usuarioDAO.php" method="post">
               
-              <input type="hidden" class="form-control" id="acao" name="acao" value="login" placeholder="name@example.com">
+              <input type="hidden" class="form-control" id="acao" name="acao" value="cadastro" placeholder="name@example.com">
               
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+              <input value="roni@gmail.com" type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+             
+              <label for="nome" class="form-label" >Nome</label>
+              <input value="roni" type="text" class="form-control" id="nome" name="nome" placeholder="Joao Silva">
 
               <label for="senha" class="form-label mt-3">Senha</label>
-              <input type="password" class="form-control" id="senha" name="senha">
+              <input value="123" type="password" class="form-control" id="senha" name="senha">
 
-              <a href="http://localhost/_20231quintanoite/cadastro.php">Não tenho cadastro</a>  
-              <!-- <a href="" onClick="enviar_email()">Esqueci a senha</a> --><br><br>
+            
 
               <button type="submit" class="btn btn-primary mt-3">Entrar</button>
               

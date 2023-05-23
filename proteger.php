@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['nome'])){
-		header("Location: index.php");
+		echo "<script>exibir_mensagem('Dados incorretos!', 'Algo deu errado')</script>";
+		header("Location: login.php");
 	}
 ?>

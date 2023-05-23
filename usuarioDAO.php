@@ -229,8 +229,49 @@ if ($acao == "insert"){
 	}else{
 		session_start();
 		$_SESSION['erro'] = "Usuário ou senha inválida!";
-		header("Location: index.php");
+		header("Location: login.php");
 	}
+}else if ($acao == "cadastro"){
+
+	$nome = $_POST["nome"];
+	$email = $_POST["email"];
+	$senha = sha1($_POST["senha"]);
+
+	
+
+	$sql = "select * from usuario where email='{$email}'";
+	$resultado = mysqli_query($con,$sql);
+
+	$linhas = [];
+	while($row = mysqli_fetch_assoc($resultado)){
+		$linhas[] = $row;
+	}
+	
+	if ( sizeof($linhas) > 0 ) {
+		session_start();
+		
+		$_SESSION['erro'] = "O e-mail já esta sendo usado!";
+		//  echo $_SESSION['erro']; 
+		header("Location: cadastro.php");
+	}else {
+		echo $email; 
+
+		
+		session_start();
+		$_SESSION['nome'] = $nome;
+
+		$sql = "insert into usuario(nome,email,senha) values('$nome','$email','$senha')";
+		mysqli_query($con,$sql);
+		
+		if (mysqli_affected_rows($con)>0){
+			echo "Inserido com sucesso!";
+		}else{
+			echo "Não foi possível inserir os dados!";
+		}
+		
+		header("Location: principal.php");
+	}
+
 }
 
 
