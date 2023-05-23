@@ -29,6 +29,14 @@
         document.getElementById('modeloCarro').value  = "";
         document.getElementById('tipoCarro').value  = "";
       }
+      function limparHistorico(){
+        document.getElementById('idHistorico').value  = "";
+        document.getElementById('mecanicoResponsavel').value  = "";
+        document.getElementById('pecasCompradas').value  = "";
+        document.getElementById('validade-garantia').value  = "";
+        document.getElementById('valor-cobrado').value  = "";
+        document.getElementById('data-servico').value  = "";
+      }
 
       function excluir(id){
         var json  = {};
@@ -307,14 +315,20 @@
       }
       
       function inserirHistorico() {
+
+        
+
         const selectUsuario = document.getElementById('idUsuario2');
         const selectVeiculo = document.getElementById('veiculosUsuarioSelecionado');
 
         const idUsuario = selectUsuario.options[selectUsuario.selectedIndex].value;
         const placa = selectVeiculo.options[selectVeiculo.selectedIndex].value;
 
-        console.log('placa', placa)
-
+        if (selectUsuario.selectedIndex == 0  || selectVeiculo.selectedIndex == 0) {
+          alert('Selecione um usuário e carro válido');
+          return
+        }
+        
         
         const idHistorico = document.getElementById('idHistorico').value
 
@@ -332,12 +346,10 @@
         json.id    = idHistorico;
 
         if (json.id==""){
-          console.log('jsonid',json.id)
-          console.log('insert')
+
           json.acao  = "insertHistorico";
         }else{
-          console.log('jsonid',json.id)
-          console.log('update')
+
           json.acao  = "updateHistorico";
         }
 
@@ -355,10 +367,10 @@
           data: json,
           type: "post",
           success: function (resp){
+              historico();
               exibir_mensagem("Resultado da solicitação", resp);
-              consultar();
-          }
-        });
+            }
+          });
 
 
       }
@@ -368,7 +380,6 @@
         var select = document.getElementById('idUsuario2');
         var id = select.options[select.selectedIndex].value;
         var option = select.options[select.selectedIndex].textContent;
-        console.log(option)
 
         var json  = {};
         json.id   = id;
@@ -609,7 +620,6 @@
           <div class="mb-3 lh-1">
 
             <button type="button" class="btn btn-primary" onclick="window.location.href='principal.php'">Voltar</button>
-            <button type="button" class="btn btn-primary" onClick="consultar()">Consultar</button>
             <button type="button" class="btn btn-primary" onClick="inserirCarro()">Salvar</button>
             <button type="button" class="btn btn-primary" onClick="limparCarro()">Limpar</button>
 
@@ -695,7 +705,6 @@
           <div class="mb-3 lh-1">
 
             <button type="button" class="btn btn-primary" onclick="window.location.href='principal.php'">Voltar</button>
-            <button type="button" class="btn btn-primary" onClick="consultar()">Consultar</button>
             <button type="button" class="btn btn-primary" onClick="inserirHistorico()">Salvar</button>
             <button type="button" class="btn btn-primary" onClick="limparHistorico()">Limpar</button>
 
