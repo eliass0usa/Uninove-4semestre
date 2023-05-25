@@ -126,6 +126,9 @@
 
 
       function inserir(){
+        let select = document.getElementById('idUsuario')
+        
+
         var json = {};
         json.nome  = document.querySelector("#nome").value;
         json.email = document.querySelector("#email").value;
