@@ -99,7 +99,7 @@
               <label for="senha" class="form-label mt-3">Senha</label>
               <input type="password" class="form-control" id="senha" name="senha">
 
-              <a href="http://localhost/_20231quintanoite/cadastro.php">Não tenho cadastro</a>  
+              <a href="http://localhost/techmechanical/cadastro.php">Não tenho cadastro</a>  
               <!-- <a href="" onClick="enviar_email()">Esqueci a senha</a> --><br><br>
 
               <button type="submit" class="btn btn-primary mt-3">Entrar</button>
