@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Cadastro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
@@ -104,13 +104,13 @@
               <input type="hidden" class="form-control" id="acao" name="acao" value="cadastro" placeholder="name@example.com">
               
               <label for="email" class="form-label">Email</label>
-              <input value="roni@gmail.com" type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+              <input value="" type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
              
               <label for="nome" class="form-label" >Nome</label>
-              <input value="roni" type="text" class="form-control" id="nome" name="nome" placeholder="Joao Silva">
+              <input value="" type="text" class="form-control" id="nome" name="nome" placeholder="Insira seu nome">
 
               <label for="senha" class="form-label mt-3">Senha</label>
-              <input value="123" type="password" class="form-control" id="senha" name="senha">
+              <input value="" type="password" class="form-control" id="senha" name="senha">
 
             
 

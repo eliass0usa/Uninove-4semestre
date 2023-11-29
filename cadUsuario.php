@@ -7,11 +7,32 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Tech Mechanical</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js" integrity="sha512-6DC1eE3AWg1bgitkoaRM1lhY98PxbMIbhgYCGV107aZlyzzvaWCW1nJW2vDuYQm06hXrW0As6OGKcIaAVWnHJw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
 
+        .modal-all-requests {
+            display: none; /*display: flex; */
+            align-items: center;
+            background: #00000094;
+            justify-content: center;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        .custom-loader {
+            width:50px;
+            height:50px;
+            border-radius:50%;
+            background:conic-gradient(#0000 10%,#0d6efd);
+            -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+            animation:s3 1s infinite linear;
+            }
+            @keyframes s3 {to{transform: rotate(1turn)}}
+    </style>
     <script>
 
       function limpar(){
@@ -43,6 +64,8 @@
         json.id   = id;
         json.acao = "delete";
 
+        document.querySelector('.modal-all-requests').style.display = "flex";
+
         $.ajax({
           url : "usuarioDAO.php",
           data: json,
@@ -50,6 +73,8 @@
           success: function (resp){
               exibir_mensagem("Resultado da solicitação", resp);
               consultar();
+
+              document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
@@ -59,6 +84,8 @@
         json.id   = id;
         json.acao = "deleteVeiculo";
 
+        document.querySelector('.modal-all-requests').style.display = "flex";
+
         $.ajax({
           url : "usuarioDAO.php",
           data: json,
@@ -66,6 +93,7 @@
           success: function (resp){
               exibir_mensagem("Resultado da solicitação", resp);
               consultar();
+              document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
@@ -75,6 +103,8 @@
         json.id   = id;
         json.acao = "deleteHistorico";
 
+        document.querySelector('.modal-all-requests').style.display = "flex";
+        
         $.ajax({
           url : "usuarioDAO.php",
           data: json,
@@ -83,6 +113,8 @@
               exibir_mensagem("Resultado da solicitação", resp);
 
               historico(placa)
+
+              document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
 
@@ -98,6 +130,8 @@
         var json = {};
         json.id  = id;
         json.acao  = "selectCar";
+
+        document.querySelector('.modal-all-requests').style.display = "flex";
 
         $.ajax({
           url : "usuarioDAO.php",
@@ -117,6 +151,9 @@
             marcaInput.value = fabricante
             modeloInput.value = modelo
             tipoInput.value = tipo
+
+
+            document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
 
@@ -130,6 +167,9 @@
         
 
         var json = {};
+
+        document.querySelector('.modal-all-requests').style.display = "flex";
+
         json.nome  = document.querySelector("#nome").value;
         json.email = document.querySelector("#email").value;
         json.senha = document.querySelector("#senha").value;
@@ -150,30 +190,40 @@
           success: function (resp){
               exibir_mensagem("Resultado da solicitação", resp);
               consultar();
+
+              document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
 
       function inserirCarro(){
         var json = {};
-        json.id  = document.querySelector('#idUsuario').value
-        json.placa  = document.querySelector("#placaCarro").value;
-        json.marca = document.querySelector("#marcaCarro").value;
-        json.modelo = document.querySelector("#modeloCarro").value;
-        json.tipo = document.querySelector("#tipoCarro").value;
 
-        json.acao  = "insertCarro";
+        document.querySelector('.modal-all-requests').style.display = "flex";
 
+        if ( document.querySelector("#placaCarro").value == '' || document.querySelector("#marcaCarro").value == '' ||  document.querySelector("#modeloCarro").value == '' || document.querySelector("#tipoCarro").value == '') {
+            alert('Preencha todos os campos para enviar com sucesso!')
+        } else {
+            json.id  = document.querySelector('#idUsuario').value
+            json.placa  = document.querySelector("#placaCarro").value;
+            json.marca = document.querySelector("#marcaCarro").value;
+            json.modelo = document.querySelector("#modeloCarro").value;
+            json.tipo = document.querySelector("#tipoCarro").value;
 
-        $.ajax({
-          url : "usuarioDAO.php",
-          data: json,
-          type: "post",
-          success: function (resp){
-              exibir_mensagem("Resultado da solicitação", resp);
-              consultar();
-          }
-        });
+            json.acao  = "insertCarro";
+
+            $.ajax({
+            url : "usuarioDAO.php",
+            data: json,
+            type: "post",
+            success: function (resp){
+                exibir_mensagem("Resultado da solicitação", resp);
+                consultar();
+
+                document.querySelector('.modal-all-requests').style.display = "none";
+            }
+            });
+        }
       }
 
       function editar(id, nome, email){
@@ -229,11 +279,14 @@
         json.id   = id;
         json.acao = "historico";
         
+        document.querySelector('.modal-all-requests').style.display = "flex";
+
         $.ajax({
           url : "usuarioDAO.php",
           data: json,
           type: "post",
           success: function (resp){
+            console.log('response: ', resp)
             
             var linhas = JSON.parse(resp);
 
@@ -271,7 +324,7 @@
               document.querySelector("#corpoTabelaHistorico").innerHTML += linha;
 
             }
-
+            document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
@@ -281,6 +334,7 @@
         json.id   = id;
         json.acao = "veiculo";
 
+        document.querySelector('.modal-all-requests').style.display = "flex";
 
         $.ajax({
           url : "usuarioDAO.php",
@@ -312,14 +366,14 @@
               document.querySelector("#corpoTabelaVeiculo").innerHTML += linha;
 
             }
-
+            document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
       
       function inserirHistorico() {
 
-        
+        document.querySelector('.modal-all-requests').style.display = "flex";
 
         const selectUsuario = document.getElementById('idUsuario2');
         const selectVeiculo = document.getElementById('veiculosUsuarioSelecionado');
@@ -372,6 +426,8 @@
           success: function (resp){
               historico();
               exibir_mensagem("Resultado da solicitação", resp);
+
+              document.querySelector('.modal-all-requests').style.display = "none";
             }
           });
 
@@ -379,6 +435,8 @@
       }
 
       function historicoOptions(){
+
+        document.querySelector('.modal-all-requests').style.display = "flex";
 
         var select = document.getElementById('idUsuario2');
         var id = select.options[select.selectedIndex].value;
@@ -411,7 +469,7 @@
               `
               document.querySelector("#veiculosUsuarioSelecionado").innerHTML += options;
             }
-
+            document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
@@ -419,7 +477,7 @@
       function consultar(){
         var json = {};
         json.acao  = "select";
-
+        document.querySelector('.modal-all-requests').style.display = "flex";
         document.querySelector("#idUsuario").innerHTML = '<option value="">Selecione</option>';
         document.querySelector("#idUsuario2").innerHTML = ' <option value="">Selecione</option>';
 
@@ -457,6 +515,8 @@
               
 
             }
+
+            document.querySelector('.modal-all-requests').style.display = "none";
           }
         });
       }
@@ -476,12 +536,22 @@
 
         historicoOptions()
         document.getElementById('idUsuario2').addEventListener('change', historicoOptions)
-        
+
+        document.getElementById('inserir-carro-btn').addEventListener('click', () => {
+            if ( document.getElementById('idUsuario').selectedIndex == 0 ) {
+                alert('Por favor, selecione um usuário válido')
+            }
+        })
+
       }
     </script>
 
   </head>
   <body>
+
+    <div class="modal-all-requests">
+        <div class="custom-loader"></div>
+    </div>
 
 
     <!-- Modal -->
@@ -505,6 +575,18 @@
 
 
     <div class="container text-left mt-5">
+
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Atençao!</h5>
+                <p class="card-text">Para visualizar todos os veículos de um usuário clique em "Veículos"</p>
+                <p class="card-text">Para visualizar todos os históricos para um carro especifico de um veículo clique primeiro em "Veículos" e depois em "Histórico" para o veículo que queira.</p>
+                <p class="card-text">Não é possível cadastrar carros com a mesma placa para diferentes usuários.</p>
+                
+                
+            </div>
+        </div>
+
       <div class="row">
         <div class="col-12 offset-12">
           <div class="mb-3">
@@ -570,7 +652,6 @@
                   <th scope="col">Dono do veiculo id</th>
                   <th scope="col">Marca</th>
                   <th scope="col">Modelo</th>
-                  <th scope="col">Ano</th>
                 </tr>
               </thead>
               <tbody id="corpoTabelaVeiculo">
@@ -594,7 +675,7 @@
        
           <div class="mb-3 mt-5 lh-1">
             <select name="" id="idUsuario">
-                <option value="">Selecione</option>
+                <option value="0">Selecione</option>
 
                
               </select>
@@ -622,8 +703,8 @@
           </div>
           <div class="mb-3 lh-1">
 
-            <button type="button" class="btn btn-primary" onclick="window.location.href='principal.php'">Voltar</button>
-            <button type="button" class="btn btn-primary" onClick="inserirCarro()">Salvar</button>
+            <button type="button"  class="btn btn-primary" onclick="window.location.href='principal.php'">Voltar</button>
+            <button type="button" id="inserir-carro-btn" class="btn btn-primary" onClick="inserirCarro()">Salvar</button>
             <button type="button" class="btn btn-primary" onClick="limparCarro()">Limpar</button>
 
             

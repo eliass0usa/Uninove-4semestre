@@ -1,13 +1,16 @@
 <?php
 
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$database   = "_aula_quinta_noite_20231";
+$servername = "sql101.infinityfree.com";
+$username   = "if0_35336742";
+$password   = "X59P0nqDv6DHEu";
+$database   = "if0_35336742__aula_quinta_noite_20231";
 
 $con = mysqli_connect($servername,$username,$password,$database);
 
 $acao = $_POST["acao"];
+
+
+
 
 if ($acao == "insert"){
 	$nome  = $_POST["nome"];
