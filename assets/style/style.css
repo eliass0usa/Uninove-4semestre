@@ -383,52 +383,7 @@ body{
 
 /* contate-nos */
 
-.contato{
-    background-image: url("./assets/images/contato-1.jpeg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 0 ;
-}
 
-.contato--titulo{
-    font-size: 28px;
-}
-
-.contato_form{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 90%;
-    
-
-}
-
-.contato_form_wp{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-}
-
-.contato_form_wp--label{
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px;
-
-}
-
-.contato_form_wp--input{
-    padding: 10px;
-    border-radius: 5px;
-    outline: none;
-    border: 1px solid grey;
-    background-color: rgba(255, 255, 255, 0.603);
-}
 
 .form--wp{
     width: 100%;
@@ -543,4 +498,87 @@ body{
 
 .header_wpnav.menu-ativado{
     background-color: red;
+}
+
+/* AVALIAÇÃO */
+.avaliacao {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    margin-top: 40px;
+}
+
+.avaliacao--titulo {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.star {
+    font-size: 2em;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.star:hover,
+.star.hovered,
+.star.selected {
+    color: gold;
+}
+
+.avaliacao--mensagem {
+    margin-top: 10px;
+    font-size: 1em;
+}
+
+.contato{
+    background-image: url("./assets/images/contato-1.jpeg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0 ;
+}
+
+.contato--titulo{
+    font-size: 28px;
+}
+
+.contato_form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 90%;
+    
+
+}
+
+.contato_form_wp{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.contato_form_wp--label{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+
+}
+
+.contato_form_wp--input{
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid grey;
+    background-color: rgba(255, 255, 255, 0.603);
 }

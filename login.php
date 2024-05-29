@@ -72,14 +72,22 @@
       </div>
 
 
-    <?php
-      session_start();
-      if (isset($_SESSION['erro'])){
-        echo "<script>exibir_mensagem('Dados incorretos!', 'Usuário ou senha inválida!');</script>";
-        unset($_SESSION['erro']);
-      }
-    ?>
+      <script>
+  // Função para exibir mensagem
+  function exibir_mensagem(titulo, conteudo) {
+    document.querySelector("#modalTitulo").innerHTML = titulo;
+    document.querySelector("#modalConteudo").innerHTML = conteudo;
+    var myModal = new bootstrap.Modal(document.getElementById('minhaModal'));
+    myModal.show();
+  }
 
+  // Verifica se há erro na sessão
+  var erro = '<?php echo isset($_SESSION["erro"]) ? "true" : "false"; ?>';
+  if (erro === 'true') {
+    exibir_mensagem('Dados incorretos!', 'Usuário ou senha inválida!');
+    <?php unset($_SESSION['erro']); ?> // Limpa a variável de sessão
+  }
+</script>
 
     <div class="container text-left mt-5">
       <div class="row">
@@ -99,7 +107,7 @@
               <label for="senha" class="form-label mt-3">Senha</label>
               <input type="password" class="form-control" id="senha" name="senha">
 
-              <a href="/cadastro.php">Não tenho cadastro</a>  
+              <a href="cadastro.php">Não tenho cadastro</a>  
               <!-- <a href="" onClick="enviar_email()">Esqueci a senha</a> --><br><br>
 
               <button type="submit" class="btn btn-primary mt-3">Entrar</button>
