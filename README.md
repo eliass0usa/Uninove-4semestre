@@ -17,9 +17,9 @@ Uma solução prática para um problema comum porém complexo.
 
 ### EQUIPE
 
-eliassousaoliveira@hotmail.com
-victormateus0777@gmail.com
-Jessica.santossouza@hotmail.com
-nicolasviniciusdias.e@gmail.com
-jaferamos56@gmail.com
-henriquelu164@gmail.com
+- eliassousaoliveira@hotmail.com
+- victormateus0777@gmail.com
+- Jessica.santossouza@hotmail.com
+- nicolasviniciusdias.e@gmail.com
+- jaferamos56@gmail.com
+- henriquelu164@gmail.com
