@@ -13,3 +13,13 @@ Uma solução prática para um problema comum porém complexo.
  - CSS
  - JAVASCRIPT
  - PYTHON
+
+
+### EQUIPE
+
+eliassousaoliveira@hotmail.com
+victormateus0777@gmail.com
+Jessica.santossouza@hotmail.com
+nicolasviniciusdias.e@gmail.com
+jaferamos56@gmail.com
+henriquelu164@gmail.com
